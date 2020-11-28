@@ -2,6 +2,8 @@ defmodule Stone.Schemas.User do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias Stone.Schemas.Account
+
   @primary_key {:id, Ecto.UUID, autogenerate: true}
 
   schema "users" do
@@ -10,6 +12,7 @@ defmodule Stone.Schemas.User do
     field :password_hash, :string
     field :password, :string, virtual: true
     field :email, :string
+    has_one(:account, Account)
     timestamps()
   end
 

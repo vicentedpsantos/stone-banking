@@ -9,10 +9,10 @@ defmodule StoneWeb.UsersController do
     |> handle_response(conn, "create.json", :created)
   end
 
-  defp handle_response({:ok, %{user: user}}, conn, view, status) do
+  defp handle_response({:ok, %{user: user, account: account}}, conn, view, status) do
     conn
     |> put_status(status)
-    |> render(view, user: user)
+    |> render(view, user: user, account: account)
   end
 
   defp handle_response({:error, :user, changeset, _}, _conn, _view, _status) do
