@@ -1,4 +1,4 @@
-defmodule Stone.Concepts.Users.Create do
+defmodule Stone.Operations.Users.Create do
   alias Stone.Repo
   alias Stone.Schemas.User
 

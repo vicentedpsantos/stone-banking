@@ -1,5 +1,5 @@
 defmodule Stone do
-  alias Stone.Concepts.{Users}
+  alias Stone.Concepts.SignUp
 
-  defdelegate create_user(params), to: Users.Create, as: :call
+  defdelegate create_user(params), to: SignUp, as: :call
 end
