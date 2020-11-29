@@ -2,7 +2,7 @@ defmodule Stone.Schemas.Account do
   use Ecto.Schema
   import Ecto.Changeset
 
-  alias Stone.Schemas.User
+  alias Stone.Schemas.{User, Transaction}
 
   @primary_key {:id, Ecto.UUID, autogenerate: true}
   @foreign_key_type Ecto.UUID
@@ -10,6 +10,7 @@ defmodule Stone.Schemas.Account do
   schema "accounts" do
     field :balance_in_cents, :integer
     belongs_to(:user, User)
+    has_many(:transactions, Transaction)
     timestamps()
   end
 
