@@ -21,6 +21,10 @@ defmodule StoneWeb.WithdrawalsController do
     {:error, changeset}
   end
 
+  defp handle_response({:error, :account, changeset, _}, _conn, _view, _status) do
+    {:error, changeset}
+  end
+
   defp handle_response({:error, :transaction, changeset, _}, _conn, _view, _status) do
     {:error, changeset}
   end
