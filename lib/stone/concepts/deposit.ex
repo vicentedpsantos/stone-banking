@@ -12,7 +12,7 @@ defmodule Stone.Concepts.Deposit do
     |> Repo.transaction()
   end
 
-  defp fetch_dependencies(%{email: email}) do
+  defp fetch_dependencies(%{email: email, amount_in_cents: amount}) do
     Repo.get_by(User, email: email)
     |> Repo.preload(:account)
   end

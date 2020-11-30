@@ -1,6 +1,7 @@
 defmodule StoneWeb.UsersView do
   use StoneWeb, :view
   alias Stone.Schemas.{User, Account}
+  import StoneWeb.Views.MoneyParser
 
   def render("create.json", %{user: %User{
     email: email,
@@ -19,7 +20,7 @@ defmodule StoneWeb.UsersView do
         last_name: last_name,
         inserted_at: inserted_at,
         account: %{
-          balance: Money.to_string(Money.new(balance_in_cents))
+          balance: money_string(balance_in_cents)
         }
       }
     }

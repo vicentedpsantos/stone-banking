@@ -9,5 +9,9 @@ defmodule StoneWeb.Router do
     pipe_through :api
 
     resources "/users", UsersController, only: [:create]
+
+    scope "/banking" do
+      resources "/deposits", DepositsController, only: [:create]
+    end
   end
 end
