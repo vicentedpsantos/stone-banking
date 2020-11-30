@@ -17,7 +17,7 @@ defmodule Stone.Concepts.SignUp do
     |> Multi.run(:account, fn repo, %{user: user} ->
       account_params = %{
         user_id: user.id,
-        balance_in_cents: @initial_balance_in_cents
+        balance_in_cents: @initial_balance
       }
 
       Account.create_changeset(account_params)

@@ -3,6 +3,11 @@ defmodule Stone.Concepts.Deposit do
   alias Stone.Schemas.{User, Account, Transaction}
   alias Stone.Repo
 
+  @deposit_description "deposit"
+  @deposit_nature "credit"
+
+  import Stone.Operations.Token
+
   def call(params) do
     case fetch_dependencies(params) do
       nil -> {:error, :not_found}
@@ -31,9 +36,6 @@ defmodule Stone.Concepts.Deposit do
     |> Multi.update(:account, account_changeset(account, params))
   end
 
-  @deposit_description "deposit"
-  @deposit_nature "credit"
-
   defp transaction_changeset(account, %{amount_in_cents: amount_in_cents, token: token}) do
     %{
       description: @deposit_description,
@@ -44,15 +46,9 @@ defmodule Stone.Concepts.Deposit do
     }
   end
 
-  defp transaction_token do
-    :crypto.strong_rand_bytes(32)
-    |> Base.encode64()
-    |> binary_part(0, 32)
-  end
-
   defp account_changeset(%Account{balance_in_cents: current_balance} = account, %{
-         amount_in_cents: incoming_amount
-       }) do
+    amount_in_cents: incoming_amount
+  }) do
     Ecto.Changeset.change(account, balance_in_cents: current_balance + incoming_amount)
   end
 end
