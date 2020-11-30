@@ -3,7 +3,7 @@ defmodule Stone.Concepts.SignUp do
   alias Stone.Schemas.{User, Account}
   alias Stone.Repo
 
-  @initial_balance_in_cents 1000_00
+  @initial_balance 1000_00
 
   def call(params) do
     params
@@ -21,7 +21,7 @@ defmodule Stone.Concepts.SignUp do
       }
 
       Account.create_changeset(account_params)
-      |> Repo.insert
+      |> Repo.insert()
     end)
   end
 end

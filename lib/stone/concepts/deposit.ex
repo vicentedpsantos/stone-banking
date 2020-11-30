@@ -24,7 +24,10 @@ defmodule Stone.Concepts.Deposit do
     merged_params = Map.merge(params, %{token: token})
 
     Multi.new()
-    |> Multi.insert(:transaction, Transaction.create_changeset(transaction_changeset(account, merged_params)))
+    |> Multi.insert(
+      :transaction,
+      Transaction.create_changeset(transaction_changeset(account, merged_params))
+    )
     |> Multi.update(:account, account_changeset(account, params))
   end
 
@@ -43,11 +46,13 @@ defmodule Stone.Concepts.Deposit do
 
   defp transaction_token do
     :crypto.strong_rand_bytes(32)
-    |> Base.encode64
+    |> Base.encode64()
     |> binary_part(0, 32)
   end
 
-  defp account_changeset(%Account{balance_in_cents: current_balance} = account, %{amount_in_cents: incoming_amount}) do
+  defp account_changeset(%Account{balance_in_cents: current_balance} = account, %{
+         amount_in_cents: incoming_amount
+       }) do
     Ecto.Changeset.change(account, balance_in_cents: current_balance + incoming_amount)
   end
 end

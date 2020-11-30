@@ -5,7 +5,7 @@ defmodule StoneWeb.DepositsController do
 
   def create(conn, params) do
     params
-    |> Enum.reduce(%{}, fn ({key, val}, acc) -> Map.put(acc, String.to_atom(key), val) end)
+    |> Enum.reduce(%{}, fn {key, val}, acc -> Map.put(acc, String.to_atom(key), val) end)
     |> Stone.create_deposit()
     |> handle_response(conn, "create.json", :created)
   end

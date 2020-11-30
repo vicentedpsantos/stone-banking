@@ -15,7 +15,13 @@ defmodule Stone.Schemas.Transaction do
     timestamps()
   end
 
-  @required_create_params [:nature, :description, :amount_in_cents, :transaction_hash, :account_id]
+  @required_create_params [
+    :nature,
+    :description,
+    :amount_in_cents,
+    :transaction_hash,
+    :account_id
+  ]
 
   def create_changeset(params) do
     %__MODULE__{}

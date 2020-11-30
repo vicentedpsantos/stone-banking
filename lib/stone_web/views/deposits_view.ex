@@ -3,18 +3,20 @@ defmodule StoneWeb.DepositsView do
   alias Stone.Schemas.{Transaction, Account}
   import StoneWeb.Views.MoneyParser
 
-  def render("create.json",
-    %{
-      account: %Account{
-        balance_in_cents: balance,
-        id: id
-      },
-      transaction: %Transaction{
-        amount_in_cents: amount_deposited,
-        description: description,
-        transaction_hash: confirmation_code
-      }
-  }) do
+  def render(
+        "create.json",
+        %{
+          account: %Account{
+            balance_in_cents: balance,
+            id: id
+          },
+          transaction: %Transaction{
+            amount_in_cents: amount_deposited,
+            description: description,
+            transaction_hash: confirmation_code
+          }
+        }
+      ) do
     %{
       message: "Depósito realizado com sucesso",
       account: %{
@@ -26,4 +28,3 @@ defmodule StoneWeb.DepositsView do
     }
   end
 end
-
