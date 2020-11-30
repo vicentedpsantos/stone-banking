@@ -1,4 +1,4 @@
-defmodule StoneWeb.DepositsController do
+defmodule StoneWeb.WithdrawalsController do
   use StoneWeb, :controller
 
   alias Stone.Repo
@@ -7,7 +7,7 @@ defmodule StoneWeb.DepositsController do
 
   def create(conn, params) do
     params
-    |> Stone.create_deposit()
+    |> Stone.create_withdrawal()
     |> handle_response(conn, "create.json", :created)
   end
 
