@@ -20,7 +20,7 @@ defmodule Stone.Operations.DebitAccount do
     |> Repo.preload(:account)
   end
 
-  defp multi({:error, error}, params), do: {:error, error}
+  defp multi({:error, :not_found}, _, _), do: {:error, :not_found}
 
   defp multi(%User{account: account}, multi, params) do
     token = transaction_token()
@@ -28,10 +28,10 @@ defmodule Stone.Operations.DebitAccount do
 
     multi
     |> Multi.insert(
-      :transaction,
+      :debit_transaction,
       Transaction.create_changeset(transaction_changeset(account, merged_params))
     )
-    |> Multi.update(:account, Account.withdrawal_changeset(account, Map.fetch!(params, :amount_in_cents)))
+    |> Multi.update(:account_debit, Account.withdrawal_changeset(account, Map.fetch!(params, :amount_in_cents)))
   end
 
   defp transaction_changeset(account, %{amount_in_cents: amount_in_cents, token: token, description: description}) do

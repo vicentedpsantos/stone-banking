@@ -4,11 +4,14 @@ defmodule Stone.Concepts.Deposit do
   alias Ecto.Multi
 
   def call(params) do
-    new_params = sanitize_params(params)
+    sanitized_params = sanitize_params(params)
+    multi = Multi.new()
 
-    Multi.new()
-    |> CreditAccount.call(new_params)
-    |> Repo.transaction()
+    with {:error, error} <- CreditAccount.call(multi, sanitized_params) do
+      {:error, error}
+    else
+      multi -> Repo.transaction(multi)
+    end
   end
 
   defp sanitize_params(params) do

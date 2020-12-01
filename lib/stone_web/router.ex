@@ -13,6 +13,7 @@ defmodule StoneWeb.Router do
     scope "/banking" do
       resources "/deposits", DepositsController, only: [:create]
       resources "/withdrawals", WithdrawalsController, only: [:create]
+      resources "/transfers", TransfersController, only: [:create]
     end
   end
 end

@@ -6,11 +6,15 @@ defmodule Stone.Concepts.Withdrawal do
   @withdrawal_description "withdrawal"
 
   def call(params) do
-    new_params = sanitize_params(params)
+    sanitized_params = sanitize_params(params)
+    multi = Multi.new()
 
-    Multi.new()
-    |> DebitAccount.call(new_params)
-    |> Repo.transaction()
+    with {:error, error} <- DebitAccount.call(multi, sanitized_params) do
+      {:error, error}
+    else
+      multi -> Repo.transaction(multi)
+    end
+
   end
 
   defp sanitize_params(params) do

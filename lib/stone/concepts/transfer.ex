@@ -1,26 +1,34 @@
 defmodule Stone.Concepts.Transfer do
   alias Stone.Operations.{CreditAccount, DebitAccount}
   alias Stone.Repo
+  alias Ecto.Multi
 
   def call(params) do
-    with {:ok, _} <- credit_account(params),
-         {:ok, _} <- debit_account(params) do
+    sanitized_params = sanitize_params(params)
 
-      {:ok, params}
-    else
-      {:error, _, _} -> {:error, :unprocessable_entity}
-    end
-  end
-
-  def credit_account(params) do
-    params
-    |> CreditAccount.call() 
+    Multi.new() 
+    |> Multi.merge(fn _ -> 
+      Multi.new()
+      |> credit_account(sanitized_params)
+    end) 
+    |> Multi.merge(fn _ ->
+      Multi.new()
+      |> debit_account(sanitized_params)
+    end)
     |> Repo.transaction()
   end
 
-  def debit_account(params) do
+  defp credit_account(multi, params) do
+    CreditAccount.call(multi, params)
+  end
+
+  defp debit_account(multi, params) do
+    DebitAccount.call(multi, params)
+  end
+
+  defp sanitize_params(params) do
     params
-    |> DebitAccount.call()
-    |> Repo.transaction()
+    |> Enum.reduce(%{}, fn {key, val}, acc -> Map.put(acc, String.to_existing_atom(key), val) end)
+    |> Map.put_new(:description, "transfer")
   end
 end
