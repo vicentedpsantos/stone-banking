@@ -7,24 +7,13 @@ defmodule Stone.Concepts.Transfer do
     sanitized_params = sanitize_params(params)
 
     Multi.new()
-    |> Multi.merge(fn _ ->
-      Multi.new()
-      |> credit_account(sanitized_params)
-    end)
-    |> Multi.merge(fn _ ->
-      Multi.new()
-      |> debit_account(sanitized_params)
-    end)
+    |> Multi.merge(fn _ -> credit_account(sanitized_params) end)
+    |> Multi.merge(fn _ -> debit_account(sanitized_params) end)
     |> Repo.transaction()
   end
 
-  defp credit_account(multi, params) do
-    CreditAccount.call(multi, params)
-  end
-
-  defp debit_account(multi, params) do
-    DebitAccount.call(multi, params)
-  end
+  defp credit_account(params), do: CreditAccount.call(Multi.new(), params)
+  defp debit_account(params), do: DebitAccount.call(Multi.new(), params)
 
   defp sanitize_params(params) do
     params
