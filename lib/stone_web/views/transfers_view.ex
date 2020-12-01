@@ -4,13 +4,13 @@ defmodule StoneWeb.TransfersView do
   import StoneWeb.Views.MoneyParser
 
   def render(
-    "create.json",
-    %{
-      account_credit: credited_account,
-      account_debit: debited_account,
-      credit_transaction: credit_transaction,
-      debit_transaction: debit_transaction
-    }
+        "create.json",
+        %{
+          account_credit: credited_account,
+          account_debit: debited_account,
+          credit_transaction: credit_transaction,
+          debit_transaction: debit_transaction
+        }
       ) do
     %{
       message: "Transferencia realizada com sucesso",

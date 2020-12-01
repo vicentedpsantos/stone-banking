@@ -32,10 +32,17 @@ defmodule Stone.Operations.CreditAccount do
       :credit_transaction,
       Transaction.create_changeset(transaction_changeset(account, merged_params))
     )
-    |> Multi.update(:account_credit, Account.deposit_changeset(account, Map.fetch!(params, :amount_in_cents)))
+    |> Multi.update(
+      :account_credit,
+      Account.deposit_changeset(account, Map.fetch!(params, :amount_in_cents))
+    )
   end
 
-  defp transaction_changeset(account, %{amount_in_cents: amount_in_cents, token: token, description: description}) do
+  defp transaction_changeset(account, %{
+         amount_in_cents: amount_in_cents,
+         token: token,
+         description: description
+       }) do
     %{
       description: description,
       nature: @deposit_nature,

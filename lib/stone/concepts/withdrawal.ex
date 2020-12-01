@@ -14,7 +14,6 @@ defmodule Stone.Concepts.Withdrawal do
     else
       multi -> Repo.transaction(multi)
     end
-
   end
 
   defp sanitize_params(params) do

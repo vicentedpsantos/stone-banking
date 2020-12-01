@@ -11,7 +11,12 @@ defmodule StoneWeb.DepositsController do
     |> handle_response(conn, "create.json", :created)
   end
 
-  defp handle_response({:ok, %{account_credit: account, credit_transaction: transaction}}, conn, view, status) do
+  defp handle_response(
+         {:ok, %{account_credit: account, credit_transaction: transaction}},
+         conn,
+         view,
+         status
+       ) do
     conn
     |> put_status(status)
     |> render(view, account: account, transaction: transaction)

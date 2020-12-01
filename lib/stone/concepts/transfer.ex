@@ -6,11 +6,11 @@ defmodule Stone.Concepts.Transfer do
   def call(params) do
     sanitized_params = sanitize_params(params)
 
-    Multi.new() 
-    |> Multi.merge(fn _ -> 
+    Multi.new()
+    |> Multi.merge(fn _ ->
       Multi.new()
       |> credit_account(sanitized_params)
-    end) 
+    end)
     |> Multi.merge(fn _ ->
       Multi.new()
       |> debit_account(sanitized_params)
